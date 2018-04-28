@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>notice</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="/css/spider.css">
+</head>
+<body>
+    <audio id="sound" controls="" loop="loop" style="display:none;"> <source src="/mp3/victory.mp3" type="audio/mpeg"> </audio>
+    <div id="binance">
+        <h3>binance</h3>
+        <ul></ul>
+    </div>
+    <div id="huobi">
+        <h3>huobi</h3>
+        <ul></ul>
+
+    </div>
+    <div id="bithumb">
+        <h3>bithumb</h3>
+        <ul></ul>
+
+    </div>
+    <div id="upbit">
+        <h3>upbit</h3>
+        <ul></ul>
+
+    </div>
+
+<script src="/js/jquery.min.js" type="text/javascript"></script>
+<script>
+    var sound = document.getElementById("sound");
+    var last = {
+        bithumb:[],
+        upbit:[]
+    };
+
+    setInterval(function(){
+        $.ajax({
+            url:"/notice",
+            type:"GET",
+            success:function(data){
+                var now = JSON.parse(data);
+                if (isNewCoinUp(last,now)){
+                    sound.play();
+                    setTimeout(function(){
+                        sound.pause();
+                    },30000);
+                }
+                $("#bithumb ul").html(jionString(now.bithumb));
+                $("#upbit ul").html(jionString(now.upbit));
+                last.bithumb = now.bithumb;
+                last.upbit = now.upbit;
+            },
+            error:function(jqXHR){
+
+            }
+        });
+    },10000);
+
+    function isNewCoinUp(last,now){
+        for (var key in last){
+            for (var i=0;i<now[key].length;i++){
+                if (!last[key].length)return true;
+
+                for (var j=0;j<last[key].length;j++){
+                    if (last[key][j].coin == now[key][i].coin){
+                        break;
+                    }
+                }
+
+                if (j==last[key].length)return true;
+            }
+        }
+        return false;
+    }
+
+    function jionString(arr){
+        var html = "";
+        arr.forEach(function(item){
+            html+= "<li><a target='_blank' href='"+ item.coinLink +"'>"+ item.coin +"</a></li>";
+        });
+        return html;
+    }
+</script>
+</body>
+</html>

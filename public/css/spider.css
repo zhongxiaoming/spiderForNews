@@ -1,0 +1,41 @@
+div{
+    box-sizing: border-box;
+    position: absolute;
+    top:0;
+    width:25%;
+    bottom:0;
+    padding: 10px;
+    border: 1px solid black;
+    margin:10px 0;
+}
+h3{
+    margin: 0;
+    border-bottom: 1px solid #ddd;
+}
+
+#binance {
+    left:0;
+    border-left:0;
+}
+#huobi{
+    left: 25%;
+    border-left:0;
+}
+#bithumb{
+    left: 50%;
+    border-left:0;
+}
+#upbit{
+    left:75%;
+    border-left:0;
+    border-right: 0;
+}
+
+ul{
+    list-style: none;
+    padding-left: 10px;
+    margin: 0;
+}
+li{
+    padding: 5px;
+}
